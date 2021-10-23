@@ -1,22 +1,31 @@
 class ContactsController < ApplicationController
 
-  def new
+  def index
+    # 入力画面を表示
     @contact = Contact.new
+    render :action => 'index'
   end
 
-  def create
-    @contact = Contact.new(contact_params)
-    if @contact.save
-      ContactMailer.contact_mall(@contact).deliver
-      redirect_to new_contact_path
+  def confirm
+    # 入力値のチェック
+    @contact = Contact.new(params[:inquiry].permit(:name, :email, :message))
+    if @contact.valid?
+      # OK。確認画面を表示
+      render :action => 'confirm'
     else
-      redirect_to new_contact_path
+      # NG。入力画面を再表示
+      render :action => 'index'
     end
   end
 
-  private
+  def thanks
+    # メール送信
+    @contact = Contact.new(params[:contact].permit(:name, :email, :message))
+    ontactMailer.received_email(@contact).deliver
 
-  def contact_params
-    params.require(:contact).permit(:name, :message)
+    # 完了画面を表示
+    render :action => 'thanks'
   end
+
+
 end
