@@ -5,7 +5,7 @@
 
   <% if @contact.errors.any? %>
     <div class="alert alert-danger" role="alert">
-      <strong>入力内容にエラーがあります</strong>
+      <strong>入力内容にエラーがあります。</strong>
       <ul>
         <% @contact.errors.each do |attr, msg| %>
           <li><%= msg %></li>
