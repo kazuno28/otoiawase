@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
 
   def confirm
     # 入力値のチェック
-    @contact = Contact.new(params[:inquiry].permit(:name, :email, :message))
+    @contact = Contact.new(params[:contact].permit(:name, :email, :message))
     if @contact.valid?
       # OK。確認画面を表示
       render :action => 'confirm'
@@ -21,7 +21,7 @@ class ContactsController < ApplicationController
   def thanks
     # メール送信
     @contact = Contact.new(params[:contact].permit(:name, :email, :message))
-    ontactMailer.received_email(@contact).deliver
+    ContactMailer.received_email(@contact).deliver
 
     # 完了画面を表示
     render :action => 'thanks'
